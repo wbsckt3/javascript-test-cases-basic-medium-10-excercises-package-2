@@ -34,7 +34,6 @@ const shape = {
     return d.greeting;
   }
 };
-// Caso de prueba
 console.log(shape.out1());
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
@@ -167,34 +166,30 @@ console.log(shape.out1());
                             done(e);
                         }
                     });
+       
+it('should log correct greeting value', function(done) {
+  const output = [];
+  const originalConsoleLog = console.log;
+  console.log = function(message) {
+    output.push(message);
+    originalConsoleLog.apply(console, arguments);
+  };
 
-                    it('should log correct values', function(done) {
-			  const output = [];
-			  const originalConsoleLog = console.log;
-			  console.log = function(message) {
-			    output.push(message);
-			    originalConsoleLog.apply(console, arguments);
-			  };
-			
-			  // Ensure output is clear before each run
-			  output.length = 0;
-			
-			  // Execute user code
-			  new Function(userCode)();
-			
-			  // Allow time for setTimeouts to complete
-			  setTimeout(() => {
-			    try {
-			      expect(output[0]).to.equal("Hello"); // Verifica el valor correcto del saludo
-			      done();
-			    } catch (err) {
-			      done(err);								
-			    } finally {
-			      console.log = originalConsoleLog; // Restore original console.log
-			    }
-			  }, 100); // Increase timeout if necessary
-		    });
+  output.length = 0;
 
+  new Function(userCode)();
+
+  setTimeout(() => {
+    try {
+      expect(output[0]).to.equal("Hello");
+      done();
+    } catch (err) {
+      done(err);
+    } finally {
+      console.log = originalConsoleLog;
+    }
+  }, 100);
+});
 
                     it('should identify falsy values', function() {
                         expect(false).to.not.be.ok;
