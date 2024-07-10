@@ -32,10 +32,11 @@ const shape = {
       this.lastName = lastName;
     }
 
-    const member = new Person("Lydia", "Hallie");
-    Person.getFullName = function () {
+    Person.prototype.getFullName = function () {
       return `${this.firstName} ${this.lastName}`;
     };
+
+    const member = new Person("Lydia", "Hallie");
     return member.getFullName();
   }
 };
@@ -172,7 +173,7 @@ console.log(shape.out1());
                         }
                     });
        
-it('should log correct full name', function(done) {
+it('should log the correct full name', function(done) {
   const output = [];
   const originalConsoleLog = console.log;
   console.log = function(message) {
@@ -182,16 +183,17 @@ it('should log correct full name', function(done) {
 
   output.length = 0;
 
+  // Ejecutar código del usuario
   new Function(userCode)();
 
   setTimeout(() => {
     try {
-      expect(output[0]).to.equal(undefined); // member.getFullName() is not a function due to misplaced method
+      expect(output[0]).to.equal('Lydia Hallie'); // Verifica el valor correcto
       done();
     } catch (err) {
       done(err);
     } finally {
-      console.log = originalConsoleLog;
+      console.log = originalConsoleLog; // Restaurar console.log original
     }
   }, 100);
 });
