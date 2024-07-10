@@ -25,7 +25,23 @@
 <body>
     <div id="editor-container">
         <textarea id="code-editor">
+const shape = {
+  out1() {
+    class Chameleon {
+      static colorChange(newColor) {
+        this.newColor = newColor;
+        return this.newColor;
+      }
 
+      constructor({ newColor = "green" } = {}) {
+        this.newColor = newColor;
+      }
+    }
+    const freddie = new Chameleon({ newColor: "purple" });
+    return freddie.colorChange("orange");
+  }
+};
+console.log(shape.out1());
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
@@ -158,7 +174,7 @@
                         }
                     });
        
-it('should log correct greeting value', function(done) {
+it('should log correct color change value', function(done) {
   const output = [];
   const originalConsoleLog = console.log;
   console.log = function(message) {
@@ -172,7 +188,7 @@ it('should log correct greeting value', function(done) {
 
   setTimeout(() => {
     try {
-      expect(output[0]).to.equal("Hello");
+      expect(output[0]).to.equal("orange");
       done();
     } catch (err) {
       done(err);
@@ -181,7 +197,6 @@ it('should log correct greeting value', function(done) {
     }
   }, 100);
 });
-
                     it('should identify falsy values', function() {
                         expect(false).to.not.be.ok;
                         expect(0).to.not.be.ok;
