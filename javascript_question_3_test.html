@@ -32,16 +32,18 @@ const shape = {
         this.newColor = newColor;
         return this.newColor;
       }
-
       constructor({ newColor = "green" } = {}) {
         this.newColor = newColor;
       }
+      getColor() {
+        return this.newColor;
+      }
     }
+    Chameleon.colorChange("orange");
     const freddie = new Chameleon({ newColor: "purple" });
-    return freddie.colorChange("orange");
+    return freddie.getColor();
   }
 };
-console.log(shape.out1());
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
@@ -174,7 +176,7 @@ console.log(shape.out1());
                         }
                     });
        
-it('should log correct color change value', function(done) {
+it('should log the correct new color for freddie', function(done) {
   const output = [];
   const originalConsoleLog = console.log;
   console.log = function(message) {
@@ -184,19 +186,21 @@ it('should log correct color change value', function(done) {
 
   output.length = 0;
 
+  // Ejecutar código del usuario
   new Function(userCode)();
 
   setTimeout(() => {
     try {
-      expect(output[0]).to.equal("orange");
+      expect(output[0]).to.equal('purple'); // Verifica el valor correcto
       done();
     } catch (err) {
       done(err);
     } finally {
-      console.log = originalConsoleLog;
+      console.log = originalConsoleLog; // Restaurar console.log original
     }
   }, 100);
 });
+			
                     it('should identify falsy values', function() {
                         expect(false).to.not.be.ok;
                         expect(0).to.not.be.ok;
