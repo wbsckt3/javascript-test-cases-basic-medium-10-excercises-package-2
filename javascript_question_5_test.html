@@ -25,7 +25,16 @@
 <body>
     <div id="editor-container">
         <textarea id="code-editor">
-
+const shape = {
+  out1() {
+    function bark() {
+      console.log("Woof!");
+    }
+    bark.animal = "dog";
+    return bark.animal;
+  }
+};
+console.log(shape.out1());
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
@@ -158,7 +167,7 @@
                         }
                     });
        
-it('should log correct greeting value', function(done) {
+it('should log correct bark animal value', function(done) {
   const output = [];
   const originalConsoleLog = console.log;
   console.log = function(message) {
@@ -172,7 +181,7 @@ it('should log correct greeting value', function(done) {
 
   setTimeout(() => {
     try {
-      expect(output[0]).to.equal("Hello");
+      expect(output[0]).to.equal("dog");
       done();
     } catch (err) {
       done(err);
