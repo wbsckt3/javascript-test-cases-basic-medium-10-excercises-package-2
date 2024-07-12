@@ -26,15 +26,24 @@
     <div id="editor-container">
         <textarea id="code-editor">
 const shape = {
-  out1() {
-    let c = { greeting: "Hey!" };
-    let d;
-    d = c;
-    c.greeting = "Hello";
-    return d.greeting;
+  adviseBefore(target, advice) {
+    return function(...args) {
+      const advisedArgs = advice(...args);
+      const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
+      return target(...finalArgs);
+    };
   }
 };
-console.log(shape.out1());
+// Ejemplo de uso
+const advisedFn = shape.adviseBefore(
+  function(...args) {
+    console.log('Original function called with args:', ...args);
+  },
+  function(...args) {
+    return ['Advised argument 1', 'Advised argument 2'];
+  }
+);
+advisedFn('Test arg 1', 'Test arg 2');
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
@@ -167,29 +176,51 @@ console.log(shape.out1());
                         }
                     });
        
-it('should log correct greeting value', function(done) {
-  const output = [];
-  const originalConsoleLog = console.log;
-  console.log = function(message) {
-    output.push(message);
-    originalConsoleLog.apply(console, arguments);
-  };
+   it('should advise before invoking a function', function(done) {
+                                const advisedFn = shape.adviseBefore(
+                                    function(...args) {
+                                        return 'Original function called with args: ' + args.join(', ');
+                                    },
+                                    function(...args) {
+                                        return ['Advised argument 1', 'Advised argument 2'];
+                                    }
+                                );
 
-  output.length = 0;
+                                const result = advisedFn('Test arg 1', 'Test arg 2');
+                                expect(result).to.equal('Original function called with args: Advised argument 1, Advised argument 2');
+                                done();
+                            });
 
-  new Function(userCode)();
+                            it('should log advised arguments to console', function(done) {
+                                const advisedFn = shape.adviseBefore(
+                                    function(...args) {
+                                        console.log('Original function called with args:', ...args);
+                                    },
+                                    function(...args) {
+                                        return ['Advised argument 1', 'Advised argument 2'];
+                                    }
+                                );
 
-  setTimeout(() => {
-    try {
-      expect(output[0]).to.equal("Hello");
-      done();
-    } catch (err) {
-      done(err);
-    } finally {
-      console.log = originalConsoleLog;
-    }
-  }, 100);
-});
+                                const output = [];
+                                const originalConsoleLog = console.log;
+                                console.log = function(message) {
+                                    output.push(message);
+                                    originalConsoleLog.apply(console, arguments);
+                                };
+
+                                advisedFn('Test arg 1', 'Test arg 2');
+
+                                setTimeout(() => {
+                                    try {
+                                        expect(output[0]).to.include('Original function called with args: Advised argument 1, Advised argument 2');
+                                        done();
+                                    } catch (err) {
+                                        done(err);
+                                    } finally {
+                                        console.log = originalConsoleLog;
+                                    }
+                                }, 100);
+                            });
 
                     it('should identify falsy values', function() {
                         expect(false).to.not.be.ok;
