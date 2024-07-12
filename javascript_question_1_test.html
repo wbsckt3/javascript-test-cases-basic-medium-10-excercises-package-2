@@ -33,17 +33,20 @@ const shape = {
       return target(...finalArgs);
     };
   },
-  advisedFn = adviseBefore(
-     function(...args) {
+  advisedFn: function() {
+    return this.adviseBefore(
+      function(...args) {
         console.log('Original function called with args:', ...args);
-     },
-     function(...args) {
+      },
+      function(...args) {
         return ['Advised argument 1', 'Advised argument 2'];
-     }
-  );
+      }
+    );
+  }
 };
 // Ejemplo de uso
-console.log(shape.advisedFn('Test arg 1', 'Test arg 2'));
+const advisedFn = shape.advisedFn();
+console.log(advisedFn('Test arg 1', 'Test arg 2'));
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
