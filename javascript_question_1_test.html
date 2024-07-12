@@ -204,46 +204,46 @@ function test_cases_scenario() {
                         done();
                     });
 
-                    it('should log advised arguments to console', function (done) {
-                        const shape = {
-                            adviseBefore(target, advice) {
-                                return function (...args) {
-                                    const advisedArgs = advice(...args);
-                                    const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
-                                    return target(...finalArgs);
-                                };
-                            }
-                        };
+it('should log advised arguments to console', function (done) {
+    const shape = {
+        adviseBefore(target, advice) {
+            return function (...args) {
+                const advisedArgs = advice(...args);
+                const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
+                return target(...finalArgs);
+            };
+        }
+    };
 
-                        const output = [];
-                        const originalConsoleLog = console.log;
-                        console.log = function (message) {
-                            output.push(message);
-                            originalConsoleLog.apply(console, arguments);
-                        };
+    const output = [];
+    const originalConsoleLog = console.log;
+    console.log = function (...args) {
+        output.push(args.join(' ')); // Unir todos los argumentos en una cadena para comparar con expect
+        originalConsoleLog.apply(console, args);
+    };
 
-                        const advisedFn = shape.adviseBefore(
-                            function (...args) {
-                                console.log('Original function called with args:', ...args);
-                            },
-                            function (...args) {
-                                return ['Advised argument 1', 'Advised argument 2'];
-                            }
-                        );
+    const advisedFn = shape.adviseBefore(
+        function (...args) {
+            console.log('Original function called with args:', ...args);
+        },
+        function (...args) {
+            return ['Advised argument 1', 'Advised argument 2'];
+        }
+    );
 
-                        advisedFn('Test arg 1', 'Test arg 2');
+    advisedFn('Test arg 1', 'Test arg 2');
 
-                        setTimeout(() => {
-                            try {
-                                expect(output[0]).to.include('Original function called with args: Advised argument 1, Advised argument 2');
-                                done();
-                            } catch (err) {
-                                done(err);
-                            } finally {
-                                console.log = originalConsoleLog;
-                            }
-                        }, 100);
-                    });
+    setTimeout(() => {
+        try {
+            expect(output[0]).to.include('Original function called with args: Advised argument 1 Advised argument 2');
+            done();
+        } catch (err) {
+            done(err);
+        } finally {
+            console.log = originalConsoleLog;
+        }
+    }, 100);
+});
 
                     it('should identify falsy values', function () {
                         expect(false).to.not.be.ok;
