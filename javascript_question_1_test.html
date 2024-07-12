@@ -32,17 +32,17 @@ const shape = {
       const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
       return target(...finalArgs);
     };
-  }
+  },
+  advisedFn = adviseBefore(
+     function(...args) {
+        console.log('Original function called with args:', ...args);
+     },
+     function(...args) {
+        return ['Advised argument 1', 'Advised argument 2'];
+     }
+  );
 };
 // Ejemplo de uso
-const advisedFn = shape.adviseBefore(
-  function(...args) {
-    console.log('Original function called with args:', ...args);
-  },
-  function(...args) {
-    return ['Advised argument 1', 'Advised argument 2'];
-  }
-);
 console.log(shape.advisedFn('Test arg 1', 'Test arg 2'));
         </textarea>
 		<img id="logo" src="logo_refactorii.png" alt="Logo Refactorii">
