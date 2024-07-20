@@ -34,17 +34,12 @@ const shape = {
     };
   },
   advisedFn: function() {
-    return this.adviseBefore(
-      function(...args) {
-        console.log('Original function called with args:', ...args);
-      },
-      function(...args) {
-        return ['Advised argument 1', 'Advised argument 2'];
-      }
-    );
+    // Here you must use `adviseBefore` to create a new function.
+    // The objective function must print the received arguments.
+    // The advice function must modify the arguments before they are called.
   }
 };
-// Ejemplo de uso
+//Test case
 const advisedFn = shape.advisedFn();
 console.log(advisedFn('Test arg 1', 'Test arg 2'));
         </textarea>
