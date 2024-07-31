@@ -32,15 +32,17 @@ shape.ArrayUtils = {
   swapFirstAndLast: function(arr) {
     if (arr.length < 2) return arr; // No swap needed for arrays with less than 2 elements
     // Destructuring to swap first and last elements
-    const [first, ...middle, last] = arr;
+    const [first, ...middle] = arr;
+    const last = middle.pop();
     return [last, ...middle, first];
   }
 };
-// Console logs for testing in the textarea
+// Console logs for testing
 console.log(shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4])); // [4, 2, 3, 1]
 console.log(shape.ArrayUtils.swapFirstAndLast([10, 20, 30])); // [30, 20, 10]
 console.log(shape.ArrayUtils.swapFirstAndLast([5]));          // [5]
 console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
+
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
@@ -175,32 +177,33 @@ console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
                     const expect = chai.expect;
 		    const assert = chai.assert;	
 
-describe('shape.ArrayUtils.swapFirstAndLast Method', function() {
-  it('should swap the first and last elements in an array', function() {
+describe("shape.ArrayUtils.swapFirstAndLast Method", function() {
+  it("should swap the first and last elements of an array with more than two elements", function() {
     const result = shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4]);
-    expect(result).to.deep.equal([4, 2, 3, 1]);
+    assert.deepEqual(result, [4, 2, 3, 1]);
   });
 
-  it('should handle arrays with exactly two elements', function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([10, 20]);
-    expect(result).to.deep.equal([20, 10]);
+  it("should swap the first and last elements of an array with exactly three elements", function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([10, 20, 30]);
+    assert.deepEqual(result, [30, 20, 10]);
   });
 
-  it('should return the same array if it has only one element', function() {
+  it("should return the same array if it has only one element", function() {
     const result = shape.ArrayUtils.swapFirstAndLast([5]);
-    expect(result).to.deep.equal([5]);
+    assert.deepEqual(result, [5]);
   });
 
-  it('should return an empty array if the input array is empty', function() {
+  it("should return an empty array when given an empty array", function() {
     const result = shape.ArrayUtils.swapFirstAndLast([]);
-    expect(result).to.deep.equal([]);
+    assert.deepEqual(result, []);
   });
 
-  it('should handle arrays with duplicate elements correctly', function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([7, 7, 7]);
-    expect(result).to.deep.equal([7, 7, 7]);
+  it("should handle arrays with two elements correctly", function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([1, 2]);
+    assert.deepEqual(result, [2, 1]);
   });
 });
+
 
 
 		// Variable para rastrear el estado de los tests
