@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,24 +26,30 @@
 <body>
     <div id="editor-container">
         <textarea id="code-editor">
-const shape = {
-  out1() {
-    function bark() {
-      console.log("Woof!");
-    }
-    // Here add code
+// Encapsulating the function in shape namespace
+shape = shape || {};
+shape.ArrayUtils = {
+  swapFirstAndLast: function(arr) {
+    if (arr.length < 2) return arr; // No swap needed for arrays with less than 2 elements
+    // Destructuring to swap first and last elements
+    const [first, ...middle, last] = arr;
+    return [last, ...middle, first];
   }
 };
-console.log(shape.out1());
+// Console logs for testing in the textarea
+console.log(shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4])); // [4, 2, 3, 1]
+console.log(shape.ArrayUtils.swapFirstAndLast([10, 20, 30])); // [30, 20, 10]
+console.log(shape.ArrayUtils.swapFirstAndLast([5]));          // [5]
+console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
     </div>
     <div id="app-container">
         <div id="app">
-	    <h5>Functions in JavaScript are Objects and Can Have Properties</h5>
-            <p id="modify-message">Challenge: add a property named animal to the bark function and assign the value Dog to it, and return it</p>
-	    <button id="send-response-button" onClick= "guardarResultados()">Send response</button>
+	    <h5>Concept: Array Destructuring</h5>
+            <div id="modify-message">In this exercise, you'll explore array destructuring, a feature in JavaScript that allows you to unpack values from arrays, or properties from objects...</div>
+	    <button id="send-response-button" onClick= "guardarResultados()">Send Response</button>
         </div>
     </div>
     <div id="console-container"><div id="console"></div></div>
@@ -69,7 +76,7 @@ console.log(shape.out1());
         </div>
     </div>
     <script>
-   	// Obtener el parámetro `token` de la URL
+    	 // Obtener el parámetro `token` de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     if (token) {
@@ -106,9 +113,18 @@ console.log(shape.out1());
             scrollbarStyle: 'null'
         });
         
-        var modal_click_message = `Error, Haz click para entender el concepto, completa el código para imprimir correctamente los valores esperados`;
-        var error_message = `Error: AssertionError: expected undefined to equal 'Refactorii' Analiza las funciónes de salida out(). Tip: Falta algo en la sintaxis de la función`;       
-		var success_message = `Ok! haz modificado la función para mostrar correctamente los mensajes en consola`
+        var modal_click_message = `This problem challenges you to continue coding the function to sort an array of positive integers...`;
+        var error_message = `Array Destructuring in JavaScript<br><br>
+	In this exercise, you'll explore array destructuring, a feature in JavaScript that allows you to unpack 
+	values from arrays, or properties from objects, into distinct variables. This is particularly useful in frameworks like 
+        React and Vue for handling props, state, and other data structures efficiently.<br><br>
+	Array destructuring is a syntax in JavaScript that allows you to extract elements from arrays and assign them to variables. 
+        This feature simplifies the process of working with array data, making your code cleaner and more readable.
+	<br><br>
+	In the context of modern JavaScript frameworks like React and Vue, destructuring is often used for handling component props, state variables, and function parameters, enabling more concise and manageable code.`;
+
+	var success_message = `🎉 Fantastic job! You've mastered array destructuring, a powerful feature in modern JavaScript that makes working with arrays more intuitive and concise. Keep up the great work—you're 
+        well on your way to becoming a JavaScript pro! 🚀`
         
         // Función para mostrar el modal con el mensaje de error
         document.getElementById('modify-message').addEventListener('click', function() {
@@ -132,87 +148,64 @@ console.log(shape.out1());
             document.getElementById('console').innerHTML = '';
             document.getElementById('mocha').innerHTML = '';
             mocha.suite.suites = []; // Clear previous test cases
-			
             // Get the user's code from the editor
             const userCode = editor.getValue();
-
-            // Redirect console.log to custom console
-			const output = [];
-			const originalConsoleLog = console.log;
-			logToConsole('Running tests....', '#67e810');
-			console.log = function(...args) {
-		                const message = args.join(' ');
-		                originalConsoleLog.apply(console, args); // Still log to the original console
-		                logToConsole(message);
-		        };
 		
-	 setTimeout(() => {
+            // Redirect console.log to custom console
+	    const output = [];
+	    const originalConsoleLog = console.log;
+	    /*console.log = function(message) {
+		output.push(message);
+		logToConsole(message);
+	    };*/
+	    // Show "Ejecutando tests..." message and delay tests
+	    logToConsole('Running tests....', '#67e810');
+		console.log = function(...args) {
+                const message = args.join(' ');
+                originalConsoleLog.apply(console, args); // Still log to the original console
+                logToConsole(message);
+            };
+		
+  	    setTimeout(() => {
+            	// Evaluate the user's code
+            	try {
+                    const userFunction = new Function(userCode + '; return shape;');  
+                    const shape = userFunction();
+                    // Define test cases
+                    const expect = chai.expect;
+		    const assert = chai.assert;	
 
-            // Evaluate the user's code
-            try {
-                new Function(userCode)();
+describe('shape.ArrayUtils.swapFirstAndLast Method', function() {
+  it('should swap the first and last elements in an array', function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4]);
+    expect(result).to.deep.equal([4, 2, 3, 1]);
+  });
 
-                // Define test cases
-                const expect = chai.expect;
-                describe('JavaScript Code Tests', function() {
-                    it('should execute without errors', function(done) {
-                        try {
-                            new Function(userCode)();
-                            done();
-                        } catch (e) {
-                            done(e);
-                        }
-                    });
-       
-it('should log correct bark animal value', function(done) {
-  const output = [];
-  const originalConsoleLog = console.log;
-  console.log = function(message) {
-    output.push(message);
-    originalConsoleLog.apply(console, arguments);
-  };
+  it('should handle arrays with exactly two elements', function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([10, 20]);
+    expect(result).to.deep.equal([20, 10]);
+  });
 
-  output.length = 0;
+  it('should return the same array if it has only one element', function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([5]);
+    expect(result).to.deep.equal([5]);
+  });
 
-  new Function(userCode)();
+  it('should return an empty array if the input array is empty', function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([]);
+    expect(result).to.deep.equal([]);
+  });
 
-  setTimeout(() => {
-    try {
-      expect(output[0]).to.equal("dog");
-      done();
-    } catch (err) {
-      done(err);
-    } finally {
-      console.log = originalConsoleLog;
-    }
-  }, 100);
+  it('should handle arrays with duplicate elements correctly', function() {
+    const result = shape.ArrayUtils.swapFirstAndLast([7, 7, 7]);
+    expect(result).to.deep.equal([7, 7, 7]);
+  });
 });
 
-                    it('should identify falsy values', function() {
-                        expect(false).to.not.be.ok;
-                        expect(0).to.not.be.ok;
-                        expect('').to.not.be.ok;
-                        expect(null).to.not.be.ok;
-                        expect(undefined).to.not.be.ok;
-                        expect(NaN).to.not.be.ok;
-                    });
-
-                    it('should define variables correctly', function() {
-                        let testVar = 123;
-                        expect(testVar).to.equal(123);
-                    });
-
-                    it('should define and call functions correctly', function() {
-                        function testFunction() {
-                            return 'Hello, World!';
-                        }
-                        expect(testFunction()).to.equal('Hello, World!');
-                    });
-                });
 
 		// Variable para rastrear el estado de los tests
                 let allTestsPassed = true;	
-                // Run Mocha tests
+ 	        // Run Mocha tests
                 mocha.run()
                     .on('test', function(test) {
                         logToConsole('• Running test: ' + test.title);
@@ -224,26 +217,26 @@ it('should log correct bark animal value', function(done) {
                         logToConsole('• Test passed: ' + test.title);
                     })
                     .on('fail', function(test, err) {
-						logToConsole('• Test failed: ' + test.title + ' - ' + err.message);
-						success_message = modal_click_message;
-						const runButton = document.getElementById('run-button');
-						runButton.innerText = 'Reintentar';
-						runButton.style.backgroundColor = '#ff0000ad';
-						runButton.onclick = function() {
-							window.location.reload();
-						};
-			                allTestsPassed = false; // Si cualquier test falla, actualizamos la variable	
-					})
-					.on('end', function() {
-						logToConsole('• All tests finished!');
-						document.getElementById('modify-message').innerText = success_message;
-						document.getElementById('modify-message').style.display = 'block';
-						document.getElementById('modify-message').style.color = 'black';
-						if (allTestsPassed) {
-					               const sendResponseButton = document.getElementById('send-response-button');
-					               sendResponseButton.classList.add('enabled');
-					        } 
-					});
+			logToConsole('• Test failed: ' + test.title + ' - ' + err.message);
+			success_message = modal_click_message;
+			const runButton = document.getElementById('run-button');
+			runButton.innerText = 'Reintentar';
+			runButton.style.backgroundColor = '#ff0000ad';
+			runButton.onclick = function() {
+			    window.location.reload();
+			};
+			allTestsPassed = false; // Si cualquier test falla, actualizamos la variable	
+		     })
+		     .on('end', function() {
+			logToConsole('• All tests finished!');
+			document.getElementById('modify-message').innerText = success_message;
+			document.getElementById('modify-message').style.display = 'block';
+			document.getElementById('modify-message').style.color = 'black';
+			if (allTestsPassed) {
+		               const sendResponseButton = document.getElementById('send-response-button');
+		               sendResponseButton.classList.add('enabled');
+		        } 
+		     });
 
             } catch (e) {
                 console.error('Error evaluating user code:', e);
@@ -253,10 +246,10 @@ it('should log correct bark animal value', function(done) {
                 console.log = originalConsoleLog;
             }
 			
-			}, 3000); // 3 seconds delay
-			
+		}, 3000); // 3 seconds delay
         });
     }
+	    
     async function guardarResultados() {
 	    const formData = JSON.parse(localStorage.getItem("formData"));
 	    const email = formData ? formData.Email : null;
