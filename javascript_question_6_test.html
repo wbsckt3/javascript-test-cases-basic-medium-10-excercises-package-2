@@ -184,31 +184,31 @@ Similar to arrays, you can clone or merge objects using the spread operator, mak
 		    const assert = chai.assert;	
 
 describe("shape.ArrayUtils.combineArrays Method", function() {
-  it("should combine two arrays of numbers", function() {
-    const result = shape.ArrayUtils.combineArrays([1, 2, 3], [4, 5, 6]);
-    assert.deepEqual(result, [1, 2, 3, 4, 5, 6]);
-  });
+      it("should combine two arrays of numbers", function() {
+        const result = shape.ArrayUtils.combineArrays([1, 2, 3], [4, 5, 6]);
+        assert.deepEqual(result, [1, 2, 3, 4, 5, 6]);
+      });
 
-  it("should combine two arrays of strings", function() {
-    const result = shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']);
-    assert.deepEqual(result, ['a', 'b', 'c', 'd']);
-  });
+      it("should combine two arrays of strings", function() {
+        const result = shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']);
+        assert.deepEqual(result, ['a', 'b', 'c', 'd']);
+      });
 
-  it("should handle combining an empty array with a non-empty array", function() {
-    const result = shape.ArrayUtils.combineArrays([], [1, 2, 3]);
-    assert.deepEqual(result, [1, 2, 3]);
-  });
+      it("should handle combining an empty array with a non-empty array", function() {
+        const result = shape.ArrayUtils.combineArrays([], [1, 2, 3]);
+        assert.deepEqual(result, [1, 2, 3]);
+      });
 
-  it("should handle combining two empty arrays", function() {
-    const result = shape.ArrayUtils.combineArrays([], []);
-    assert.deepEqual(result, []);
-  });
+      it("should handle combining two empty arrays", function() {
+        const result = shape.ArrayUtils.combineArrays([], []);
+        assert.deepEqual(result, []);
+      });
 
-  it("should handle combining arrays with different types", function() {
-    const result = shape.ArrayUtils.combineArrays([1, 'a'], ['b', 2]);
-    assert.deepEqual(result, [1, 'a', 'b', 2]);
-  });
-});
+      it("should handle combining arrays with different types", function() {
+        const result = shape.ArrayUtils.combineArrays([1, 'a'], ['b', 2]);
+        assert.deepEqual(result, [1, 'a', 'b', 2]);
+      });
+    });
 
 
 		// Variable para rastrear el estado de los tests
