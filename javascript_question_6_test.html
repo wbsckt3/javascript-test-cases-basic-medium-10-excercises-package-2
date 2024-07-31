@@ -27,16 +27,18 @@
     <div id="editor-container">
         <textarea id="code-editor">
 // Initialize the shape object if it doesn't already exist
-shape = shape || {};
-// Define the Spread Operator example in shape
+var shape = shape || {};
+// Define the ArrayUtils with the filterArray function
 shape.ArrayUtils = {
-  combineArrays: function(arr1, arr2) {
-    return [...arr1, ...arr2];
+  filterArray: function(arr, callback) {
+    return arr.filter(callback);
   }
 };
-// Console logs for testing in the textarea
-console.log(shape.ArrayUtils.combineArrays([1, 2, 3], [4, 5, 6]));  // [1, 2, 3, 4, 5, 6]
-console.log(shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']));  // ['a', 'b', 'c', 'd']
+// Console logs for testing
+console.log(shape.ArrayUtils.filterArray([1, 2, 3, 4, 5], x => x > 3)); // [4, 5]
+console.log(shape.ArrayUtils.filterArray(['apple', 'banana', 'cherry'], x => x.includes('a'))); // ['apple', 'banana']
+console.log(shape.ArrayUtils.filterArray([10, 20, 30, 40], x => x % 2 === 0)); // [10, 20, 30, 40]
+console.log(shape.ArrayUtils.filterArray([], x => x)); // []
 
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
@@ -44,8 +46,8 @@ console.log(shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']));  // ['a', '
     </div>
     <div id="app-container">
         <div id="app">
-	    <h5>Spread Operator</h5>
-            <div id="modify-message">The spread operator (...) is a powerful feature introduced in ECMAScript 2018. It allows you to expand elements of an iterable (like an array or object) into individual elements...</div>
+	    <h5>Array.prototype.filter</h5>
+            <div id="modify-message">The filter() method creates a new array with all elements ...</div>
 	    <button id="send-response-button" onClick= "guardarResultados()">Send Response</button>
         </div>
     </div>
@@ -111,24 +113,11 @@ console.log(shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']));  // ['a', '
         });
         
         var modal_click_message = `This problem challenges you to continue coding the function to sort an array of positive integers...`;
-        var error_message = `Spread Operator<br><br>
-Concept:
+        var error_message = `Concept of the Exercise:
+The filter() method creates a new array with all elements that pass the test implemented by the provided function. Unlike `map()`, which transforms elements, `filter()` is used to include only elements that meet certain criteria.
 <br><br>
-The spread operator (...) is a powerful feature introduced in ECMAScript 2018. It allows you to expand elements of an iterable (like an array or object) into individual elements. This operator is particularly useful when dealing with arrays and objects, as it simplifies the process of copying and merging them.
-<br><br>
-Key Uses:
-<br><br>
-- Merging Arrays:<br>
-You can merge two or more arrays into one using the spread operator. This is useful for combining data from different sources into a single array.
-<br><br>
-- Copying Arrays:<br>
-You can create a shallow copy of an array using the spread operator. This is helpful for avoiding direct mutations of the original array.
-<br><br>
-- Function Arguments:<br>
-When calling functions, you can use the spread operator to pass elements of an array as individual arguments.
-<br><br>
-- Object Cloning and Merging:<br>
-Similar to arrays, you can clone or merge objects using the spread operator, making it easier to work with object data.`;
+In the provided example:<br><br>
+array.filter(callback) applies the callback function to each element in the array. If the callback returns true, the element is included in the new array. If it returns false, the element is excluded.`;
 
 	var success_message = `🚀 Well done! You've successfully navigated through the complexities of regular expressions and phone number validation. 
  This exercise wasn't just about finding the right pattern; it was about sharpening your skills and deepening your understanding of string manipulation and 
@@ -183,32 +172,27 @@ Similar to arrays, you can clone or merge objects using the spread operator, mak
                     const expect = chai.expect;
 		    const assert = chai.assert;	
 
-describe("shape.ArrayUtils.combineArrays Method", function() {
-      it("should combine two arrays of numbers", function() {
-        const result = shape.ArrayUtils.combineArrays([1, 2, 3], [4, 5, 6]);
-        assert.deepEqual(result, [1, 2, 3, 4, 5, 6]);
-      });
+describe("shape.ArrayUtils.filterArray Method", function() {
+  it("should filter out numbers less than or equal to 3", function() {
+    const result = shape.ArrayUtils.filterArray([1, 2, 3, 4, 5], x => x > 3);
+    assert.deepEqual(result, [4, 5]);
+  });
 
-      it("should combine two arrays of strings", function() {
-        const result = shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']);
-        assert.deepEqual(result, ['a', 'b', 'c', 'd']);
-      });
+  it("should filter strings containing the letter 'a'", function() {
+    const result = shape.ArrayUtils.filterArray(['apple', 'banana', 'cherry'], x => x.includes('a'));
+    assert.deepEqual(result, ['apple', 'banana']);
+  });
 
-      it("should handle combining an empty array with a non-empty array", function() {
-        const result = shape.ArrayUtils.combineArrays([], [1, 2, 3]);
-        assert.deepEqual(result, [1, 2, 3]);
-      });
+  it("should filter out odd numbers", function() {
+    const result = shape.ArrayUtils.filterArray([10, 20, 30, 40], x => x % 2 === 0);
+    assert.deepEqual(result, [10, 20, 30, 40]);
+  });
 
-      it("should handle combining two empty arrays", function() {
-        const result = shape.ArrayUtils.combineArrays([], []);
-        assert.deepEqual(result, []);
-      });
-
-      it("should handle combining arrays with different types", function() {
-        const result = shape.ArrayUtils.combineArrays([1, 'a'], ['b', 2]);
-        assert.deepEqual(result, [1, 'a', 'b', 2]);
-      });
-    });
+  it("should return an empty array when given an empty array", function() {
+    const result = shape.ArrayUtils.filterArray([], x => x);
+    assert.deepEqual(result, []);
+  });
+});
 
 
 		// Variable para rastrear el estado de los tests
