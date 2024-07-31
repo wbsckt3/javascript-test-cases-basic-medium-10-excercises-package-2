@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,32 +26,34 @@
 <body>
     <div id="editor-container">
         <textarea id="code-editor">
-const shape = {
-  adviseBefore(target, advice) {
-    return function(...args) {
-      const advisedArgs = advice(...args);
-      const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
-      return target(...finalArgs);
-    };
-  },
-  advisedFn: function() {
-    // Here you must use `adviseBefore` to create a new function.
-    // The objective function must print the received arguments.
-    // The advice function must modify the arguments before they are called.
+// Encapsulating the function in shape namespace
+var shape = shape || {};
+shape.FalsyChecker = {
+  isFalsy: function(value) {
+    return !value;
   }
 };
-//Test case
-const advisedFn = shape.advisedFn();
-console.log(advisedFn('Test arg 1', 'Test arg 2'));
+// Console logs for CodeMirror
+console.log(shape.FalsyChecker.isFalsy(false));      // true
+console.log(shape.FalsyChecker.isFalsy(0));          // true
+console.log(shape.FalsyChecker.isFalsy(''));         // true
+console.log(shape.FalsyChecker.isFalsy(null));       // true
+console.log(shape.FalsyChecker.isFalsy(undefined));  // true
+console.log(shape.FalsyChecker.isFalsy(NaN));        // true
+console.log(shape.FalsyChecker.isFalsy(true));       // false (example of truthy value)
+console.log(shape.FalsyChecker.isFalsy(1));          // false (example of truthy value)
+console.log(shape.FalsyChecker.isFalsy('hello'));    // false (example of truthy value)
+console.log(shape.FalsyChecker.isFalsy({}));         // false (example of truthy value)
+console.log(shape.FalsyChecker.isFalsy([]));         // false (example of truthy value)
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
     </div>
     <div id="app-container">
         <div id="app">
-	    <h5>AOP: Aspected-Oriented-Programming (AOP)</h5>
-            <p id="modify-message">Concept: Aspect-Oriented Programming (AOP) allows you to add additional behavior to existing functions without modifying them directly.</p>
-	    <button id="send-response-button" onClick= "guardarResultados()">Send response</button>
+	    <h5>Concept: Falsy Values in JavaScript</h5>
+            <div id="modify-message">In JavaScript, a "falsy" value is a value that is considered false when evaluated in a Boolean context. The following values are considered "falsy"...</div>
+	    <button id="send-response-button" onClick= "guardarResultados()">Send Response</button>
         </div>
     </div>
     <div id="console-container"><div id="console"></div></div>
@@ -62,12 +65,14 @@ console.log(advisedFn('Test arg 1', 'Test arg 2'));
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="errorMessageModalLabel">Error Message</h5>
+                    <h5 class="modal-title" id="errorMessageModalLabel">Concept</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="errorMessageModalBody"></div>
+                <div class="modal-body" id="errorMessageModalBody">
+                    <!-- Contenido del mensaje de error -->
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -75,7 +80,7 @@ console.log(advisedFn('Test arg 1', 'Test arg 2'));
         </div>
     </div>
     <script>
-    	// Obtener el parámetro `token` de la URL
+    	 // Obtener el parámetro `token` de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     if (token) {
@@ -104,193 +109,133 @@ console.log(advisedFn('Test arg 1', 'Test arg 2'));
     } else {
 	    document.body.innerHTML = 'Access denied. No token provided.';
     }
+    function test_cases_scenario(){	    
+        const editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+            lineNumbers: true,
+            mode: 'javascript',
+            lineWrapping: true,
+            scrollbarStyle: 'null'
+        });
+        
+        var modal_click_message = `This problem challenges you to continue coding the function to sort an array of positive integers...`;
+        var error_message = `Falsy Values in JavaScript<br><br>
+In JavaScript, a "falsy" value is a value that is considered false when evaluated in a Boolean context. The following values are considered "falsy":
+<br><br>
+false<br>
+0 (zero)<br>
+'' or "" (empty string)<br>
+null<br>
+undefined<br>
+NaN (Not a Number)<br>
+Any value that is not "falsy" is considered "truthy." Understanding these values is crucial for writing effective conditional statements 
+and controlling the flow of a program. This exercise helps you practice identifying these values and using them in your code.`;
 
-function test_cases_scenario() {
-    const editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        lineNumbers: true,
-        mode: 'javascript',
-        lineWrapping: true,
-        scrollbarStyle: 'null'
-    });
+	var success_message = `🚀 Well done! You've successfully navigated through the complexities of regular expressions and phone number validation. 
+ This exercise wasn't just about finding the right pattern; it was about sharpening your skills and deepening your understanding of string manipulation and 
+ pattern recognition! 🌟👏👨‍💻👩‍💻 `
+        
+        // Función para mostrar el modal con el mensaje de error
+        document.getElementById('modify-message').addEventListener('click', function() {
+            $('#errorMessageModalBody').html(error_message); // Coloca el contenido del error en el cuerpo del modal
+            $('#errorMessageModal').modal('show'); // Muestra el modal
+        });
 
-    var modal_click_message = `Error, click to understand concept`;
-    var error_message = `Concept: Aspect-Oriented Programming (AOP) allows you to add additional behavior to existing functions without modifying them directly. One common pattern in AOP is to run a piece of code (called an "advice") before or after a function is executed. In this case, we'll focus on running an advice function before the main function`;
-    var success_message = `Ok! Good`;
-
-    // Función para mostrar el modal con el mensaje de error
-    document.getElementById('modify-message').addEventListener('click', function () {
-        $('#errorMessageModalBody').html(error_message); // Coloca el contenido del error en el cuerpo del modal
-        $('#errorMessageModal').modal('show'); // Muestra el modal
-    });
-
-    function logToConsole(message, color) {
-        const consoleElement = document.getElementById('console');
-        const messageElement = document.createElement('div');
-        messageElement.textContent = message;
-        if (color) {
-            messageElement.style.color = color;
-            messageElement.style.fontWeight = 'bold';
+        function logToConsole(message, color) {
+            const consoleElement = document.getElementById('console');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            if (color) {
+                messageElement.style.color = color;
+                messageElement.style.fontWeight = 'bold';
+            }
+            consoleElement.appendChild(messageElement);
         }
-        consoleElement.appendChild(messageElement);
-    }
 
-    document.getElementById('run-button').addEventListener('click', function () {
-        // Clear previous results
-        document.getElementById('console').innerHTML = '';
-        document.getElementById('mocha').innerHTML = '';
-        mocha.suite.suites = []; // Clear previous test cases
-
-        // Get the user's code from the editor
-        const userCode = editor.getValue();
-
-        // Redirect console.log to custom console
-        const output = [];
-        const originalConsoleLog = console.log;
-        logToConsole('Running tests....', '#67e810');
+        document.getElementById('run-button').addEventListener('click', function() {
+            // Clear previous results
+            document.getElementById('console').innerHTML = '';
+            document.getElementById('mocha').innerHTML = '';
+            mocha.suite.suites = []; // Clear previous test cases
+            // Get the user's code from the editor
+            const userCode = editor.getValue();
+		
+            // Redirect console.log to custom console
+	    const output = [];
+	    const originalConsoleLog = console.log;
+	    /*console.log = function(message) {
+		output.push(message);
+		logToConsole(message);
+	    };*/
+	    // Show "Ejecutando tests..." message and delay tests
+	    logToConsole('Running tests....', '#67e810');
 		console.log = function(...args) {
                 const message = args.join(' ');
                 originalConsoleLog.apply(console, args); // Still log to the original console
                 logToConsole(message);
-        };
-        setTimeout(() => {
-            // Evaluate the user's code
-            try {
-                new Function(userCode)();
-
-                // Define test cases
-                const expect = chai.expect;
-                describe('JavaScript Code Tests', function () {
-                    it('should execute without errors', function (done) {
-                        try {
-                            new Function(userCode)();
-                            done();
-                        } catch (e) {
-                            done(e);
-                        }
-                    });
-
-                    it('should advise before invoking a function', function (done) {
-                        const shape = {
-                            adviseBefore(target, advice) {
-                                return function (...args) {
-                                    const advisedArgs = advice(...args);
-                                    const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
-                                    return target(...finalArgs);
-                                };
-                            }
-                        };
-
-                        const advisedFn = shape.adviseBefore(
-                            function (...args) {
-                                return 'Original function called with args: ' + args.join(', ');
-                            },
-                            function (...args) {
-                                return ['Advised argument 1', 'Advised argument 2'];
-                            }
-                        );
-
-                        const result = advisedFn('Test arg 1', 'Test arg 2');
-                        expect(result).to.equal('Original function called with args: Advised argument 1, Advised argument 2');
-                        done();
-                    });
-
-it('should log advised arguments to console', function (done) {
-    const shape = {
-        adviseBefore(target, advice) {
-            return function (...args) {
-                const advisedArgs = advice(...args);
-                const finalArgs = Array.isArray(advisedArgs) ? advisedArgs : args;
-                return target(...finalArgs);
             };
-        }
-    };
+		
+  	    setTimeout(() => {
+            	// Evaluate the user's code
+            	try {
+                    const userFunction = new Function(userCode + '; return shape;');  
+                    const shape = userFunction();
+                    // Define test cases
+                    const expect = chai.expect;
+		    const assert = chai.assert;	
 
-    const output = [];
-    const originalConsoleLog = console.log;
-    console.log = function (...args) {
-        output.push(args.join(' ')); // Unir todos los argumentos en una cadena para comparar con expect
-        originalConsoleLog.apply(console, args);
-    };
+describe('shape.FalsyChecker.isFalsy Method', function() {
+  it('should identify falsy values', function() {
+    expect(shape.FalsyChecker.isFalsy(false)).to.be.true;
+    expect(shape.FalsyChecker.isFalsy(0)).to.be.true;
+    expect(shape.FalsyChecker.isFalsy('')).to.be.true;
+    expect(shape.FalsyChecker.isFalsy(null)).to.be.true;
+    expect(shape.FalsyChecker.isFalsy(undefined)).to.be.true;
+    expect(shape.FalsyChecker.isFalsy(NaN)).to.be.true;
+  });
 
-    const advisedFn = shape.adviseBefore(
-        function (...args) {
-            console.log('Original function called with args:', ...args);
-        },
-        function (...args) {
-            return ['Advised argument 1', 'Advised argument 2'];
-        }
-    );
-
-    advisedFn('Test arg 1', 'Test arg 2');
-
-    setTimeout(() => {
-        try {
-            expect(output[0]).to.include('Original function called with args: Advised argument 1 Advised argument 2');
-            done();
-        } catch (err) {
-            done(err);
-        } finally {
-            console.log = originalConsoleLog;
-        }
-    }, 100);
+  it('should identify truthy values', function() {
+    expect(shape.FalsyChecker.isFalsy(true)).to.be.false;
+    expect(shape.FalsyChecker.isFalsy(1)).to.be.false;
+    expect(shape.FalsyChecker.isFalsy('hello')).to.be.false;
+    expect(shape.FalsyChecker.isFalsy({})).to.be.false;
+    expect(shape.FalsyChecker.isFalsy([])).to.be.false;
+  });
 });
-
-                    it('should identify falsy values', function () {
-                        expect(false).to.not.be.ok;
-                        expect(0).to.not.be.ok;
-                        expect('').to.not.be.ok;
-                        expect(null).to.not.be.ok;
-                        expect(undefined).to.not.be.ok;
-                        expect(NaN).to.not.be.ok;
-                    });
-
-                    it('should define variables correctly', function () {
-                        let testVar = 123;
-                        expect(testVar).to.equal(123);
-                    });
-
-                    it('should define and call functions correctly', function () {
-                        function testFunction() {
-                            return 'Hello, World!';
-                        }
-                        expect(testFunction()).to.equal('Hello, World!');
-                    });
-                });
 
 		// Variable para rastrear el estado de los tests
                 let allTestsPassed = true;	
-                // Run Mocha tests
+ 	        // Run Mocha tests
                 mocha.run()
-                    .on('test', function (test) {
+                    .on('test', function(test) {
                         logToConsole('• Running test: ' + test.title);
                     })
-                    .on('test end', function (test) {
+                    .on('test end', function(test) {
                         logToConsole('• Test finished: ' + test.title);
                     })
-                    .on('pass', function (test) {
+                    .on('pass', function(test) {
                         logToConsole('• Test passed: ' + test.title);
                     })
-                    .on('fail', function (test, err) {
-                        logToConsole('• Test failed: ' + test.title + ' - ' + err.message);
-                        success_message = modal_click_message;
-                        const runButton = document.getElementById('run-button');
-                        runButton.innerText = 'Reintentar';
-                        runButton.style.backgroundColor = '#ff0000ad';
-                        runButton.onclick = function () {
-                            window.location.reload();
-                        };
+                    .on('fail', function(test, err) {
+			logToConsole('• Test failed: ' + test.title + ' - ' + err.message);
+			success_message = modal_click_message;
+			const runButton = document.getElementById('run-button');
+			runButton.innerText = 'Reintentar';
+			runButton.style.backgroundColor = '#ff0000ad';
+			runButton.onclick = function() {
+			    window.location.reload();
+			};
 			allTestsPassed = false; // Si cualquier test falla, actualizamos la variable	
-                    })
-                    .on('end', function () {
-                        logToConsole('• All tests finished!');
-                        document.getElementById('modify-message').innerText = success_message;
-                        document.getElementById('modify-message').style.display = 'block';
-                        document.getElementById('modify-message').style.color = 'black';
-                        if (allTestsPassed) {
+		     })
+		     .on('end', function() {
+			logToConsole('• All tests finished!');
+			document.getElementById('modify-message').innerText = success_message;
+			document.getElementById('modify-message').style.display = 'block';
+			document.getElementById('modify-message').style.color = 'black';
+			if (allTestsPassed) {
 		               const sendResponseButton = document.getElementById('send-response-button');
 		               sendResponseButton.classList.add('enabled');
 		        } 
-                    });
+		     });
 
             } catch (e) {
                 console.error('Error evaluating user code:', e);
@@ -299,11 +244,10 @@ it('should log advised arguments to console', function (done) {
                 // Restore original console.log
                 console.log = originalConsoleLog;
             }
-
-        }, 3000); // 3 seconds delay
-
-    });
-}
+			
+		}, 3000); // 3 seconds delay
+        });
+    }
 	    
     async function guardarResultados() {
 	    const formData = JSON.parse(localStorage.getItem("formData"));
@@ -348,7 +292,7 @@ it('should log advised arguments to console', function (done) {
 	        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
 	    }).join(''));
 	    return JSON.parse(jsonPayload);
-    }   
+    }
     </script>
 </body>
 </html>
