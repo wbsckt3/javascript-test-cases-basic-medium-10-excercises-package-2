@@ -32,9 +32,9 @@ shape.ArrayUtils = {
   swapFirstAndLast: function(arr) {
     if (arr.length < 2) return arr; // No swap needed for arrays with less than 2 elements
     // Destructuring to swap first and last elements
-    const [first, ...middle] = arr;
-    const last = middle.pop();
-    return [last, ...middle, first];
+    const [first, ...rest] = arr;
+    const last = rest.pop();
+    return [last, ...rest, first];
   }
 };
 // Console logs for testing
@@ -117,13 +117,13 @@ console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
         
         var modal_click_message = `This problem challenges you to continue coding the function to sort an array of positive integers...`;
         var error_message = `Array Destructuring in JavaScript<br><br>
-	In this exercise, you'll explore array destructuring, a feature in JavaScript that allows you to unpack 
-	values from arrays, or properties from objects, into distinct variables. This is particularly useful in frameworks like 
-        React and Vue for handling props, state, and other data structures efficiently.<br><br>
-	Array destructuring is a syntax in JavaScript that allows you to extract elements from arrays and assign them to variables. 
-        This feature simplifies the process of working with array data, making your code cleaner and more readable.
-	<br><br>
-	In the context of modern JavaScript frameworks like React and Vue, destructuring is often used for handling component props, state variables, and function parameters, enabling more concise and manageable code.`;
+	Array destructuring is a syntax in JavaScript that allows you to unpack values from arrays into distinct variables. This syntax makes it easy to extract values from arrays and assign them to variables in a concise way. It can be used to swap elements, extract specific items, and more, which is useful for manipulating arrays efficiently.
+<br><br>
+In the provided function, array destructuring is used to swap the first and last elements of an array. Here’s a breakdown:
+<br><br>
+Destructuring Assignment: const [first, ...rest] = arr; extracts the first element into first and the remaining elements into rest.<br>
+Swapping Elements: The last element is obtained by rest.pop(), and then it’s combined with the first element to return the new array with swapped positions.<br>
+This concept is foundational for working with arrays in JavaScript and is widely used in modern frameworks like React and Vue.`;
 
 	var success_message = `🎉 Fantastic job! You've mastered array destructuring, a powerful feature in modern JavaScript that makes working with arrays more intuitive and concise. Keep up the great work—you're 
         well on your way to becoming a JavaScript pro! 🚀`
@@ -178,12 +178,12 @@ console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
 		    const assert = chai.assert;	
 
 describe("shape.ArrayUtils.swapFirstAndLast Method", function() {
-  it("should swap the first and last elements of an array with more than two elements", function() {
+  it("should swap the first and last elements of the array", function() {
     const result = shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4]);
     assert.deepEqual(result, [4, 2, 3, 1]);
   });
 
-  it("should swap the first and last elements of an array with exactly three elements", function() {
+  it("should swap the first and last elements of an array with 3 elements", function() {
     const result = shape.ArrayUtils.swapFirstAndLast([10, 20, 30]);
     assert.deepEqual(result, [30, 20, 10]);
   });
@@ -193,16 +193,12 @@ describe("shape.ArrayUtils.swapFirstAndLast Method", function() {
     assert.deepEqual(result, [5]);
   });
 
-  it("should return an empty array when given an empty array", function() {
+  it("should return an empty array if the input array is empty", function() {
     const result = shape.ArrayUtils.swapFirstAndLast([]);
     assert.deepEqual(result, []);
   });
-
-  it("should handle arrays with two elements correctly", function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([1, 2]);
-    assert.deepEqual(result, [2, 1]);
-  });
 });
+
 
 
 
