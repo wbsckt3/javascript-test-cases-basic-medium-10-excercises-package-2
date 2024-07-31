@@ -26,8 +26,9 @@
 <body>
     <div id="editor-container">
         <textarea id="code-editor">
-// Encapsulating the function in shape namespace
-shape = shape || {};
+// Initialize the shape object if it doesn't already exist
+var shape = shape || {};
+// Define the ArrayUtils with the swapFirstAndLast function
 shape.ArrayUtils = {
   swapFirstAndLast: function(arr) {
     if (arr.length < 2) return arr; // No swap needed for arrays with less than 2 elements
@@ -42,7 +43,6 @@ console.log(shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4])); // [4, 2, 3, 1]
 console.log(shape.ArrayUtils.swapFirstAndLast([10, 20, 30])); // [30, 20, 10]
 console.log(shape.ArrayUtils.swapFirstAndLast([5]));          // [5]
 console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
-
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
