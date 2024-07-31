@@ -28,29 +28,26 @@
         <textarea id="code-editor">
 // Initialize the shape object if it doesn't already exist
 var shape = shape || {};
-// Define the ArrayUtils with the swapFirstAndLast function
+// Define the ArrayUtils with the transformArray function
 shape.ArrayUtils = {
-  swapFirstAndLast: function(arr) {
-    if (arr.length < 2) return arr; // No swap needed for arrays with less than 2 elements
-    // Destructuring to swap first and last elements
-    const [first, ...rest] = arr;
-    const last = rest.pop();
-    return [last, ...rest, first];
+  transformArray: function(arr, callback) {
+    return arr.map(callback);
   }
 };
 // Console logs for testing
-console.log(shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4])); // [4, 2, 3, 1]
-console.log(shape.ArrayUtils.swapFirstAndLast([10, 20, 30])); // [30, 20, 10]
-console.log(shape.ArrayUtils.swapFirstAndLast([5]));          // [5]
-console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
+console.log(shape.ArrayUtils.transformArray([1, 2, 3], x => x * 2)); // [2, 4, 6]
+console.log(shape.ArrayUtils.transformArray(['a', 'b', 'c'], x => x.toUpperCase())); // ['A', 'B', 'C']
+console.log(shape.ArrayUtils.transformArray([10, 20, 30], x => x + 5)); // [15, 25, 35]
+console.log(shape.ArrayUtils.transformArray([], x => x * 2)); // []
+
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
     </div>
     <div id="app-container">
         <div id="app">
-	    <h5>Concept: Array Destructuring</h5>
-            <div id="modify-message">In this exercise, you'll explore array destructuring, a feature in JavaScript that allows you to unpack values from arrays, or properties from objects...</div>
+	    <h5>Concept: Array.prototype.map</h5>
+            <div id="modify-message">This concept is essential for working with arrays in JavaScript...</div>
 	    <button id="send-response-button" onClick= "guardarResultados()">Send Response</button>
         </div>
     </div>
@@ -116,16 +113,16 @@ console.log(shape.ArrayUtils.swapFirstAndLast([]));           // []
         });
         
         var modal_click_message = `This problem challenges you to continue coding the function to sort an array of positive integers...`;
-        var error_message = `Array Destructuring in JavaScript<br><br>
-	Array destructuring is a syntax in JavaScript that allows you to unpack values from arrays into distinct variables. This syntax makes it easy to extract values from arrays and assign them to variables in a concise way. It can be used to swap elements, extract specific items, and more, which is useful for manipulating arrays efficiently.
+        var error_message = `Here’s a new key ECMAScript concept: Array.prototype.map. This concept is essential for working with arrays in JavaScript. It is widely used in frameworks like React and Vue to transform arrays and manage data effectively.
 <br><br>
-In the provided function, array destructuring is used to swap the first and last elements of an array. Here’s a breakdown:
-<br><br>
-Destructuring Assignment: const [first, ...rest] = arr; extracts the first element into first and the remaining elements into rest.<br>
-Swapping Elements: The last element is obtained by rest.pop(), and then it’s combined with the first element to return the new array with swapped positions.<br>
-This concept is foundational for working with arrays in JavaScript and is widely used in modern frameworks like React and Vue.`;
+Concept of the Exercise:<br><br>
+The map() method creates a new array populated with the results of calling a provided function on every element in the calling array. It does not modify the original array but returns a new array with transformed elements. This method is useful for operations like data transformation, list rendering, and more.
+<br>
+In the example provided:<br>
+array.map(callback) applies the callback function to each element in the array, producing a new array with the results.
+`;
 
-	var success_message = `🎉 Fantastic job! You've mastered array destructuring, a powerful feature in modern JavaScript that makes working with arrays more intuitive and concise. Keep up the great work—you're 
+	var success_message = `🎉 Fantastic job! You've mastered array map, a powerful feature in modern JavaScript that makes working with arrays more intuitive and concise. Keep up the great work—you're 
         well on your way to becoming a JavaScript pro! 🚀`
         
         // Función para mostrar el modal con el mensaje de error
@@ -177,29 +174,27 @@ This concept is foundational for working with arrays in JavaScript and is widely
                     const expect = chai.expect;
 		    const assert = chai.assert;	
 
-describe("shape.ArrayUtils.swapFirstAndLast Method", function() {
-  it("should swap the first and last elements of the array", function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([1, 2, 3, 4]);
-    assert.deepEqual(result, [4, 2, 3, 1]);
+describe("shape.ArrayUtils.transformArray Method", function() {
+  it("should double the numbers in the array", function() {
+    const result = shape.ArrayUtils.transformArray([1, 2, 3], x => x * 2);
+    assert.deepEqual(result, [2, 4, 6]);
   });
 
-  it("should swap the first and last elements of an array with 3 elements", function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([10, 20, 30]);
-    assert.deepEqual(result, [30, 20, 10]);
+  it("should convert all strings in the array to uppercase", function() {
+    const result = shape.ArrayUtils.transformArray(['a', 'b', 'c'], x => x.toUpperCase());
+    assert.deepEqual(result, ['A', 'B', 'C']);
   });
 
-  it("should return the same array if it has only one element", function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([5]);
-    assert.deepEqual(result, [5]);
+  it("should add 5 to each number in the array", function() {
+    const result = shape.ArrayUtils.transformArray([10, 20, 30], x => x + 5);
+    assert.deepEqual(result, [15, 25, 35]);
   });
 
-  it("should return an empty array if the input array is empty", function() {
-    const result = shape.ArrayUtils.swapFirstAndLast([]);
+  it("should return an empty array when given an empty array", function() {
+    const result = shape.ArrayUtils.transformArray([], x => x * 2);
     assert.deepEqual(result, []);
   });
 });
-
-
 
 
 		// Variable para rastrear el estado de los tests
