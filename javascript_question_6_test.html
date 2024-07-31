@@ -26,18 +26,18 @@
 <body>
     <div id="editor-container">
         <textarea id="code-editor">
-// Encapsulating the function in shape namespace
+// Initialize the shape object if it doesn't already exist
 shape = shape || {};
+// Define the Spread Operator example in shape
 shape.ArrayUtils = {
-  mergeArrays: function(arr1, arr2) {
+  combineArrays: function(arr1, arr2) {
     return [...arr1, ...arr2];
   }
 };
 // Console logs for testing in the textarea
-console.log(shape.ArrayUtils.mergeArrays([1, 2, 3], [4, 5, 6])); // Should log: [1, 2, 3, 4, 5, 6]
-console.log(shape.ArrayUtils.mergeArrays(['a', 'b'], ['c', 'd', 'e'])); // Should log: ['a', 'b', 'c', 'd', 'e']
-console.log(shape.ArrayUtils.mergeArrays([], [1, 2, 3])); // Should log: [1, 2, 3]
-console.log(shape.ArrayUtils.mergeArrays([1, 2, 3], [])); // Should log: [1, 2, 3]
+console.log(shape.ArrayUtils.combineArrays([1, 2, 3], [4, 5, 6]));  // [1, 2, 3, 4, 5, 6]
+console.log(shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']));  // ['a', 'b', 'c', 'd']
+
         </textarea>
 	<img id="logo" src="https://wbsckt3.github.io/javascript-test-cases-basic-medium-10-excercises-package/logo_refactorii.png" alt="Logo Refactorii">
         <button id="run-button">Run</button>
@@ -183,25 +183,30 @@ Similar to arrays, you can clone or merge objects using the spread operator, mak
                     const expect = chai.expect;
 		    const assert = chai.assert;	
 
-describe("shape.ArrayUtils.mergeArrays Method", function() {
-  it("should merge two arrays into one", function() {
-    const result = shape.ArrayUtils.mergeArrays([1, 2, 3], [4, 5, 6]);
+describe("shape.ArrayUtils.combineArrays Method", function() {
+  it("should combine two arrays of numbers", function() {
+    const result = shape.ArrayUtils.combineArrays([1, 2, 3], [4, 5, 6]);
     assert.deepEqual(result, [1, 2, 3, 4, 5, 6]);
   });
 
-  it("should handle merging arrays with different types", function() {
-    const result = shape.ArrayUtils.mergeArrays(['a', 'b'], ['c', 'd', 'e']);
-    assert.deepEqual(result, ['a', 'b', 'c', 'd', 'e']);
+  it("should combine two arrays of strings", function() {
+    const result = shape.ArrayUtils.combineArrays(['a', 'b'], ['c', 'd']);
+    assert.deepEqual(result, ['a', 'b', 'c', 'd']);
   });
 
-  it("should handle merging an empty array with a non-empty array", function() {
-    const result = shape.ArrayUtils.mergeArrays([], [1, 2, 3]);
+  it("should handle combining an empty array with a non-empty array", function() {
+    const result = shape.ArrayUtils.combineArrays([], [1, 2, 3]);
     assert.deepEqual(result, [1, 2, 3]);
   });
 
-  it("should handle merging a non-empty array with an empty array", function() {
-    const result = shape.ArrayUtils.mergeArrays([1, 2, 3], []);
-    assert.deepEqual(result, [1, 2, 3]);
+  it("should handle combining two empty arrays", function() {
+    const result = shape.ArrayUtils.combineArrays([], []);
+    assert.deepEqual(result, []);
+  });
+
+  it("should handle combining arrays with different types", function() {
+    const result = shape.ArrayUtils.combineArrays([1, 'a'], ['b', 2]);
+    assert.deepEqual(result, [1, 'a', 'b', 2]);
   });
 });
 
