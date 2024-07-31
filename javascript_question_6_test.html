@@ -177,8 +177,8 @@ Similar to arrays, you can clone or merge objects using the spread operator, mak
   	    setTimeout(() => {
             	// Evaluate the user's code
             	try {
-                    const userFunction = new Function(userCode + '; return shape.ArrayUtils;');  
-                    const shape.ArrayUtils = userFunction();
+                    const userFunction = new Function(userCode + '; return shape;');  
+                    const shape = userFunction();
                     // Define test cases
                     const expect = chai.expect;
 		    const assert = chai.assert;	
