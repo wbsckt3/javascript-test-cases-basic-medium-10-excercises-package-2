@@ -29,8 +29,9 @@
 // Encapsulating the function in shape namespace
 var shape = shape || {};
 shape.FalsyChecker = {
-  isFalsy: function(value) {
-    return !value;
+/* In JavaScript, a value is considered "falsy" if it translates to false when evaluated in a Boolean context. The isFalsy function needs to check if a given value is falsy and return true if it is, and false otherwise. */
+/* The common falsy values in JavaScript are: false, 0, '' (empty string), null, undefined, NaN */
+/* Function Implementation: You can implement the isFalsy function using the logical NOT operator (!), which converts a value to its Boolean equivalent and then negates it. If the value is falsy, !value will be true. */
   }
 };
 // Console logs for CodeMirror
