@@ -28,9 +28,13 @@
         <textarea id="code-editor">
 // Initialize the shape object if it doesn't already exist
 var shape = shape || {};
-
+/*Your task is to create a method called filterArray within the shape.ArrayUtils object. This method should take two parameters: an array (arr) and a callback function (callback). The filterArray method should return a new array containing only the elements that satisfy the condition specified by the callback function.
+Here's what you need to do:
+Define the filterArray method: This method should be defined inside the shape.ArrayUtils object.
+Implement the filterArray method: The method should use the filter function to create a new array based on the condition specified by the callback function.
+Your implementation should satisfy the following test cases:*/
 };
-// Console logs for testing
+// test cases
 console.log(shape.ArrayUtils.filterArray([1, 2, 3, 4, 5], x => x > 3)); // [4, 5]
 console.log(shape.ArrayUtils.filterArray(['apple', 'banana', 'cherry'], x => x.includes('a'))); // ['apple', 'banana']
 console.log(shape.ArrayUtils.filterArray([10, 20, 30, 40], x => x % 2 === 0)); // [10, 20, 30, 40]
