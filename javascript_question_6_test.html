@@ -28,11 +28,7 @@
         <textarea id="code-editor">
 // Initialize the shape object if it doesn't already exist
 var shape = shape || {};
-// Define the ArrayUtils with the filterArray function
-shape.ArrayUtils = {
-  filterArray: function(arr, callback) {
-    return arr.filter(callback);
-  }
+
 };
 // Console logs for testing
 console.log(shape.ArrayUtils.filterArray([1, 2, 3, 4, 5], x => x > 3)); // [4, 5]
@@ -171,6 +167,25 @@ array.filter(callback) applies the callback function to each element in the arra
 		    const assert = chai.assert;	
 
 describe("shape.ArrayUtils.filterArray Method", function() {
+
+ let loggedValues;
+  let originalConsoleLog;
+
+  beforeEach(function() {
+    // Almacenar la función original de console.log y los valores registrados
+    loggedValues = [];
+    originalConsoleLog = console.log;
+    console.log = (...args) => {
+      loggedValues.push(args[0]); // Captura el valor registrado
+      originalConsoleLog.apply(console, args); // Llama al original console.log
+    };
+  });
+
+  afterEach(function() {
+    // Restaura console.log después de cada prueba
+    console.log = originalConsoleLog;
+  });
+	
   it("should filter out numbers less than or equal to 3", function() {
     const result = shape.ArrayUtils.filterArray([1, 2, 3, 4, 5], x => x > 3);
     assert.deepEqual(result, [4, 5]);
