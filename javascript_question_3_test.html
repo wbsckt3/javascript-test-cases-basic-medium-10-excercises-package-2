@@ -29,22 +29,10 @@
 // Encapsulating the function in shape namespace
 var shape = shape || {};
 shape.Utils = {
-  createCounter: function(initialValue) {
-    let count = initialValue;
-    return {
-      increment: function() {
-        count++;
-        return count;
-      },
-      decrement: function() {
-        count--;
-        return count;
-      },
-      getValue: function() {
-        return count;
-      }
-    };
-  }
+//You need to create a function called createCounter that generates a counter object. This counter should start from an initial value provided as an argument. The counter object must have three methods:
+//increment: This method should increase the counter's value by 1 and return the updated value.
+//decrement: This method should decrease the counter's value by 1 and return the updated value.
+//getValue: This method should return the current value of the counter without modifying it.
 };
 // Test cases
 console.log(shape.Utils.createCounter(0).increment()); // 1
@@ -188,6 +176,25 @@ var success_message = `🎉 Fantastic job! You've successfully tackled closures,
 		    const assert = chai.assert;	
 
 describe('shape.Utils.createCounter', function() {
+
+   let loggedValues;
+  let originalConsoleLog;
+
+  beforeEach(function() {
+    // Almacenar la función original de console.log y los valores registrados
+    loggedValues = [];
+    originalConsoleLog = console.log;
+    console.log = (...args) => {
+      loggedValues.push(args[0]); // Captura el valor registrado
+      originalConsoleLog.apply(console, args); // Llama al original console.log
+    };
+  });
+
+  afterEach(function() {
+    // Restaura console.log después de cada prueba
+    console.log = originalConsoleLog;
+  });
+	
   it('should start with the initial value and increment', function() {
     const counter = shape.Utils.createCounter(0);
     assert.strictEqual(counter.increment(), 1);
