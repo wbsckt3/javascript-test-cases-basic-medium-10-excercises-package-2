@@ -30,8 +30,12 @@
 var shape = shape || {};
 // Define the ArrayUtils with the transformArray function
 shape.ArrayUtils = {
-  transformArray: function(arr, callback) {
-    return arr.map(callback);
+  // Your task is to create a method called transformArray within the shape.ArrayUtils object. 
+  // This method should take two parameters: an array (arr) and a callback function (callback). 
+  // The transformArray method should apply the callback function to each element of the array and return a new array with the transformed values.
+  // Here's what you need to do:
+  // Define the transformArray method: This method should be defined inside the shape.ArrayUtils object.
+  // Implement the transformArray method: The method should use the map function to apply the callback function to each element of the array and return the resulting array.
   }
 };
 // Console logs for testing
@@ -46,7 +50,7 @@ console.log(shape.ArrayUtils.transformArray([], x => x * 2)); // []
     </div>
     <div id="app-container">
         <div id="app">
-	    <h5>Concept: Array.prototype.map</h5>
+	    <h5>Concept: Array.prototype.map - Transform Array Elements</h5>
             <div id="modify-message">This concept is essential for working with arrays in JavaScript...</div>
 	    <button id="send-response-button" onClick= "guardarResultados()">Send Response</button>
         </div>
@@ -175,6 +179,25 @@ array.map(callback) applies the callback function to each element in the array, 
 		    const assert = chai.assert;	
 
 describe("shape.ArrayUtils.transformArray Method", function() {
+
+   let loggedValues;
+  let originalConsoleLog;
+
+  beforeEach(function() {
+    // Almacenar la función original de console.log y los valores registrados
+    loggedValues = [];
+    originalConsoleLog = console.log;
+    console.log = (...args) => {
+      loggedValues.push(args[0]); // Captura el valor registrado
+      originalConsoleLog.apply(console, args); // Llama al original console.log
+    };
+  });
+
+  afterEach(function() {
+    // Restaura console.log después de cada prueba
+    console.log = originalConsoleLog;
+  });
+	
   it("should double the numbers in the array", function() {
     const result = shape.ArrayUtils.transformArray([1, 2, 3], x => x * 2);
     assert.deepEqual(result, [2, 4, 6]);
