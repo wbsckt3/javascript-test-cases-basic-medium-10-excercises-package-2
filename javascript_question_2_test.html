@@ -31,14 +31,14 @@ var shape = shape || {};
 shape.FalsyChecker = {
   isFalsy: function(value) {
     // Check if value itself is falsy
-    if (!value) return true;
+    // ...
     // Check for falsy values within arrays
     if (Array.isArray(value)) {
-      return value.some(item => !item);
+      // ...
     }
     // Check for falsy values within objects
     if (typeof value === 'object') {
-      return Object.values(value).some(item => !item);
+      // ...
     }
     return false;
   }
@@ -192,6 +192,25 @@ This exercise challenges you to implement a function that checks for the presenc
 		    const assert = chai.assert;	
 
 describe('shape.FalsyChecker.isFalsy Method', function() {
+
+   let loggedValues;
+  let originalConsoleLog;
+
+  beforeEach(function() {
+    // Almacenar la función original de console.log y los valores registrados
+    loggedValues = [];
+    originalConsoleLog = console.log;
+    console.log = (...args) => {
+      loggedValues.push(args[0]); // Captura el valor registrado
+      originalConsoleLog.apply(console, args); // Llama al original console.log
+    };
+  });
+
+  afterEach(function() {
+    // Restaura console.log después de cada prueba
+    console.log = originalConsoleLog;
+  });
+	
   it('should identify falsy primitive values', function() {
     expect(shape.FalsyChecker.isFalsy(false)).to.be.true;
     expect(shape.FalsyChecker.isFalsy(0)).to.be.true;
