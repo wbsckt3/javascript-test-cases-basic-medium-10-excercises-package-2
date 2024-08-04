@@ -30,11 +30,14 @@
 var shape = shape || {};
 // Define the ArrayUtils with the doubleArray function using an arrow function
 shape.ArrayUtils = {
-  doubleArray: function(arr) {
-    return arr.map(x => x * 2); // Arrow function to double each element
-  }
+/* Challenge: Double Each Element in an Array
+Your task is to create a method called doubleArray within the shape.ArrayUtils object. This method should take an array (arr) as its parameter and return a new array with each element doubled.
+Here's what you need to do:
+Define the doubleArray method: This method should be defined inside the shape.ArrayUtils object.
+Implement the doubleArray method: The method should use the map function to create a new array where each element is doubled.
+Your implementation should satisfy the following test cases: */
 };
-// Console logs for testing
+// Test cases
 console.log(shape.ArrayUtils.doubleArray([1, 2, 3])); // [2, 4, 6]
 console.log(shape.ArrayUtils.doubleArray([5, 10, 15])); // [10, 20, 30]
 console.log(shape.ArrayUtils.doubleArray([-1, 0, 1])); // [-2, 0, 2]
@@ -170,6 +173,25 @@ In the provided example, multiplyByTwo and filterOddNumbers are defined using ar
 		    const assert = chai.assert;	
 
 describe("shape.ArrayUtils.doubleArray Method", function() {
+
+   let loggedValues;
+  let originalConsoleLog;
+
+  beforeEach(function() {
+    // Almacenar la función original de console.log y los valores registrados
+    loggedValues = [];
+    originalConsoleLog = console.log;
+    console.log = (...args) => {
+      loggedValues.push(args[0]); // Captura el valor registrado
+      originalConsoleLog.apply(console, args); // Llama al original console.log
+    };
+  });
+
+  afterEach(function() {
+    // Restaura console.log después de cada prueba
+    console.log = originalConsoleLog;
+  });
+	
   it("should double each element in the array", function() {
     const result = shape.ArrayUtils.doubleArray([1, 2, 3]);
     assert.deepEqual(result, [2, 4, 6]);
