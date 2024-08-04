@@ -190,6 +190,25 @@ and controlling the flow of a program. This exercise helps you practice identify
 		    const assert = chai.assert;	
 
 describe('shape.FalsyChecker.isFalsy Method', function() {
+
+ let loggedValues;
+  let originalConsoleLog;
+
+  beforeEach(function() {
+    // Almacenar la función original de console.log y los valores registrados
+    loggedValues = [];
+    originalConsoleLog = console.log;
+    console.log = (...args) => {
+      loggedValues.push(args[0]); // Captura el valor registrado
+      originalConsoleLog.apply(console, args); // Llama al original console.log
+    };
+  });
+
+  afterEach(function() {
+    // Restaura console.log después de cada prueba
+    console.log = originalConsoleLog;
+  });
+	
   it('should identify falsy values', function() {
     expect(shape.FalsyChecker.isFalsy(false)).to.be.true;
     expect(shape.FalsyChecker.isFalsy(0)).to.be.true;
